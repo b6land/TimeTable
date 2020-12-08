@@ -15,14 +15,14 @@ namespace TimeTable.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "專案描述資訊";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "相關聯絡資訊";
 
             return View();
         }
