@@ -16,7 +16,11 @@ namespace TimeTable.Models
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
-        public bool DownloadTraTimeTable(out string Result)
+        /// <summary> 採用 ptxmotc/Sample-code 的程式碼，使用訪客身分下載 PTX 資料 </summary>
+        /// <param name="APIUrl"> 下載位址 </param>
+        /// <param name="Result"> 下載內容 </param>
+        /// <returns> 是否成功下載 </returns>
+        public bool DownloadPtxData(string APIUrl, out string Result)
         {
             //申請的APPID
             //（FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF 為 Guest 帳號，以IP作為API呼叫限制，請替換為註冊的APPID & APPKey）
@@ -30,9 +34,7 @@ namespace TimeTable.Models
             //取得加密簽章
             string Signature = HMAC_SHA1.Signature(SignDate, APPKey);
             string sAuth = "hmac username=\"" + APPID + "\", algorithm=\"hmac-sha1\", headers=\"x-date\", signature=\"" + Signature + "\"";
-
-            //欲呼叫之API網址(此範例為台鐵車站資料)
-            var APIUrl = "https://ptx.transportdata.tw/MOTC/v2/Rail/TRA/Station?$top=10&$format=JSON";
+            
             Result = string.Empty;
 
             try
