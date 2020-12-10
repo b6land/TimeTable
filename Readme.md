@@ -4,6 +4,11 @@
 - 按下鍵盤的 [Ctrl] + [Shift]+ [B] 開始編譯。
 - 按下 F5 開啟瀏覽器偵錯與執行。
 
+## 使用說明
+
+- 左下角可查詢 10 筆車站資訊 (以 `string` 輸出)。
+- 左下角可輸入車次，按下「設定」後，再按下「查詢車次資料」取得車次的停靠站與時間 (以 `string` 輸出)。
+
 ## 介接 API
 
 - [公共運輸整合資訊流通服務平台 Public Transport data eXchange](https://ptx.transportdata.tw/PTX/)

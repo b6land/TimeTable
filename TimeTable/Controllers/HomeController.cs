@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeTable.Models;
 
 namespace TimeTable.Controllers
 {
@@ -25,6 +26,13 @@ namespace TimeTable.Controllers
             ViewBag.Message = "相關聯絡資訊";
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult InputValue(InputModel model)
+        {
+            ViewData["Value"] = model.Value;
+            return View("Index", model);
         }
     }
 }

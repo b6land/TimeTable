@@ -15,6 +15,14 @@
             以下為可使用的 API，按下後以字串顯示查詢結果。
         </p>
         <p><a class="btn btn-default" href="/api/tratime"> 台鐵車站 (列出 10 站) </a></p>
+        @using (Html.BeginForm("InputValue", "Home", FormMethod.Post))
+        {
+            <div>@Html.TextBox("Value")</div>
+            <input type="submit" value="設定" class="btn btn-default" />
+            <p>
+                <a class="btn btn-default" href="/api/tratime?code=@ViewData["Value"]"> 查詢車次資料 </a>
+            </p>
+        }
     </div>
     <div class="col-md-4">
         
