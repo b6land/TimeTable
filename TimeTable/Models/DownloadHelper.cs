@@ -54,6 +54,19 @@ namespace TimeTable.Models
 
         }
 
-            
+        /// <summary> 檢查是否已下載今日的列車時刻表 </summary>
+        /// <returns> 是: 今日下載 </returns>
+        public bool isDailyTimetableToday()
+        {
+            string downloadDay = System.Web.Configuration.WebConfigurationManager.AppSettings["DownloadDay"];
+            string currentDay = DateTime.Now.ToString("yyyyMMdd");
+            return downloadDay.Equals(currentDay);
+        }
+
+        /// <summary> 設定列車時刻表下載日期為今日 </summary>
+        public void SetDailyTimetableToday()
+        {
+            System.Web.Configuration.WebConfigurationManager.AppSettings["DownloadDay"] = DateTime.Now.ToString("yyyyMMdd");
+        }
     }
 }
