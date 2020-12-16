@@ -4,9 +4,52 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SimpleTrainTable.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="SimpleTrainTableStoreContainer" />
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="SimpleTrainTable.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SimpleTrainTableStoreContainer">
+    <EntitySet Name="StopTimesSet" EntityType="SimpleTrainTable.Store.StopTimesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TrainInfoSet" EntityType="SimpleTrainTable.Store.TrainInfoSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TrainInfoStopTimes" Association="SimpleTrainTable.Store.TrainInfoStopTimes">
+      <End Role="TrainInfo" EntitySet="TrainInfoSet" />
+      <End Role="StopTimes" EntitySet="StopTimesSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="StopTimesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TrainId" Type="int" Nullable="false" />
+    <Property Name="StationID" Type="smallint" Nullable="false" />
+    <Property Name="StationName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ArrivalTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DepartureTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TrainInfoId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TrainInfoSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TrainNo" Type="smallint" Nullable="false" />
+    <Property Name="TrainTypeName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartingStationId" Type="smallint" Nullable="false" />
+    <Property Name="EndingStationId" Type="smallint" Nullable="false" />
+    <Property Name="StartingStationName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EndingStationName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="TrainInfoStopTimes">
+    <End Role="TrainInfo" Type="SimpleTrainTable.Store.TrainInfoSet" Multiplicity="1" />
+    <End Role="StopTimes" Type="SimpleTrainTable.Store.StopTimesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TrainInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StopTimes">
+        <PropertyRef Name="TrainInfoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="SimpleTrainTable" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -23,12 +66,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TrainNo" Type="Int16" Nullable="false" />
+          <Property Name="TrainId" Type="Int32" Nullable="false" />
           <Property Name="StationID" Type="Int16" Nullable="false" />
           <Property Name="StationName" Type="String" Nullable="false" />
           <Property Name="ArrivalTime" Type="String" Nullable="false" />
           <Property Name="DepartureTime" Type="String" Nullable="false" />
           <NavigationProperty Name="TrainInfo" Relationship="SimpleTrainTable.TrainInfoStopTimes" FromRole="StopTimes" ToRole="TrainInfo" />
+          <Property Name="TrainInfoId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TrainInfo">
           <Key>
@@ -46,18 +90,49 @@
         <Association Name="TrainInfoStopTimes">
           <End Type="SimpleTrainTable.TrainInfo" Role="TrainInfo" Multiplicity="1" />
           <End Type="SimpleTrainTable.StopTimes" Role="StopTimes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StopTimes">
+              <PropertyRef Name="TrainInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="SimpleTrainTable" />
-        <Alias Key="Target" Value="SimpleTrainTable.Store" />
-        <EntityContainerMapping CdmEntityContainer="SimpleTrainTableContainer" StorageEntityContainer="SimpleTrainTableStoreContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SimpleTrainTableStoreContainer" CdmEntityContainer="SimpleTrainTableContainer">
+    <EntitySetMapping Name="StopTimesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(SimpleTrainTable.StopTimes)">
+        <MappingFragment StoreEntitySet="StopTimesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TrainId" ColumnName="TrainId" />
+          <ScalarProperty Name="StationID" ColumnName="StationID" />
+          <ScalarProperty Name="StationName" ColumnName="StationName" />
+          <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+          <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
+          <ScalarProperty Name="TrainInfoId" ColumnName="TrainInfoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TrainInfoSet">
+      <EntityTypeMapping TypeName="IsTypeOf(SimpleTrainTable.TrainInfo)">
+        <MappingFragment StoreEntitySet="TrainInfoSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TrainNo" ColumnName="TrainNo" />
+          <ScalarProperty Name="TrainTypeName" ColumnName="TrainTypeName" />
+          <ScalarProperty Name="StartingStationId" ColumnName="StartingStationId" />
+          <ScalarProperty Name="EndingStationId" ColumnName="EndingStationId" />
+          <ScalarProperty Name="StartingStationName" ColumnName="StartingStationName" />
+          <ScalarProperty Name="EndingStationName" ColumnName="EndingStationName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">

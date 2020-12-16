@@ -15,11 +15,12 @@ namespace TimeTable
     public partial class StopTimes
     {
         public int Id { get; set; }
-        public short TrainNo { get; set; }
+        public int TrainId { get; set; }
         public short StationID { get; set; }
         public string StationName { get; set; }
         public string ArrivalTime { get; set; }
         public string DepartureTime { get; set; }
+        public int TrainInfoId { get; set; }
     
         public virtual TrainInfo TrainInfo { get; set; }
     }

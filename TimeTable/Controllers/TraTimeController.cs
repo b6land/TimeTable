@@ -43,6 +43,8 @@ namespace TimeTable.Controllers
                 result = "下載失敗";
             }
             JObject json = JObject.Parse(result);
+            SqlQuery sqlQuery = new SqlQuery();
+            sqlQuery.ParseFromJson(json);
             JProperty timeTable = json.Property("TrainTimetables");
             if(timeTable == null)
             {
