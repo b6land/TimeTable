@@ -43,8 +43,6 @@ namespace TimeTable.Controllers
                 result = "下載失敗";
             }
             JObject json = JObject.Parse(result);
-            SqlQuery sqlQuery = new SqlQuery();
-            sqlQuery.ParseFromJson(json);
             JProperty timeTable = json.Property("TrainTimetables");
             if(timeTable == null)
             {
@@ -69,6 +67,34 @@ namespace TimeTable.Controllers
                 
             }
             return trainTimeTable;
+        }
+
+        public string Get(string start, string end)
+        {
+            string url = "https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/DailyTrainTimetable/Today?$format=JSON";
+            string result = "查詢完成";
+            string downloadResult = "";
+            SqlQuery sqlQuery = new SqlQuery();
+
+            if (downloadHelper.isDailyTimetableToday() == false)
+            {
+                if (downloadHelper.DownloadPtxData(url, out downloadResult) == false)
+                {
+                    result = "下載失敗";
+                }
+                else
+                {
+                    downloadHelper.SetDailyTimetableToday();
+
+                    JObject json = JObject.Parse(downloadResult);                    
+                    sqlQuery.ClearDatabase();
+                    sqlQuery.ParseFromJson(json);
+                }
+            }
+
+            sqlQuery.TrainTravelTimeQuery(start, end);
+
+            return result;
         }
     }
 }

@@ -24,6 +24,7 @@
     <Property Name="ArrivalTime" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DepartureTime" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TrainInfoId" Type="int" Nullable="false" />
+    <Property Name="StopSeq" Type="smallint" Nullable="false" />
   </EntityType>
   <EntityType Name="TrainInfoSet">
     <Key>
@@ -73,6 +74,7 @@
           <Property Name="DepartureTime" Type="String" Nullable="false" />
           <NavigationProperty Name="TrainInfo" Relationship="SimpleTrainTable.TrainInfoStopTimes" FromRole="StopTimes" ToRole="TrainInfo" />
           <Property Name="TrainInfoId" Type="Int32" Nullable="false" />
+          <Property Name="StopSeq" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="TrainInfo">
           <Key>
@@ -115,6 +117,7 @@
           <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
           <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
           <ScalarProperty Name="TrainInfoId" ColumnName="TrainInfoId" />
+          <ScalarProperty Name="StopSeq" ColumnName="StopSeq" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

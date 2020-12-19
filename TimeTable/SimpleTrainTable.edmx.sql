@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/17/2020 07:00:10
+-- Date Created: 12/18/2020 23:19:44
 -- Generated from EDMX file: C:\Users\Cheng\Dropbox\TimeTable\TimeTable\SimpleTrainTable.edmx
 -- --------------------------------------------------
 
@@ -44,7 +44,8 @@ CREATE TABLE [dbo].[StopTimesSet] (
     [StationName] nvarchar(max)  NOT NULL,
     [ArrivalTime] nvarchar(max)  NOT NULL,
     [DepartureTime] nvarchar(max)  NOT NULL,
-    [TrainInfoId] int  NOT NULL
+    [TrainInfoId] int  NOT NULL,
+    [StopSeq] smallint  NOT NULL
 );
 GO
 

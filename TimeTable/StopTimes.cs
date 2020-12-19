@@ -21,6 +21,7 @@ namespace TimeTable
         public string ArrivalTime { get; set; }
         public string DepartureTime { get; set; }
         public int TrainInfoId { get; set; }
+        public short StopSeq { get; set; }
     
         public virtual TrainInfo TrainInfo { get; set; }
     }
