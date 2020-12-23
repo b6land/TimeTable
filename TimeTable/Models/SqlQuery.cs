@@ -11,14 +11,14 @@ namespace TimeTable.Models
     {
         public class TrainTravelTime
         {
-            short TrainNo { get; set; }
-            string TrainTypeName { get; set; }
-            string StartingStationName { get; set; }
-            string EndingStationName { get; set; }
-            string StartStation { get; set; }
-            string DepartureTime { get; set; }
-            string EndStation { get; set; }
-            string ArrivalTime { get; set; }
+            public short TrainNo { get; set; }
+            public string TrainTypeName { get; set; }
+            public string StartingStationName { get; set; }
+            public string EndingStationName { get; set; }
+            public string StartStation { get; set; }
+            public string DepartureTime { get; set; }
+            public string EndStation { get; set; }
+            public string ArrivalTime { get; set; }
         }
 
         public void ClearDatabase()
@@ -77,17 +77,12 @@ namespace TimeTable.Models
             Debug.WriteLine("ParseJsonToData: "+ (watch.ElapsedMilliseconds / 1000));
         }
 
-        public string TrainTravelTimeQuery(string startStation, string endStation)
+        public IEnumerable<TrainTravelTime> TrainTravelTimeQuery(string startStation, string endStation)
         {
             SimpleTrainTableContainer trainTableDb = new SimpleTrainTableContainer();
-            var result = trainTableDb.Database.SqlQuery<TrainTravelTime>("SELECT Info.TrainNo, Info.TrainTypeName, Info.StartingStationName, Info.EndingStationName, StartTimes.StationName As StartStation, StartTimes.DepartureTime, EndTimes.StationName As EndStation, EndTimes.ArrivalTime FROM[dbo].[TrainInfoSet] AS Info, [dbo].[StopTimesSet] AS EndTimes, [dbo].[StopTimesSet] AS StartTimes WHERE EndTimes.TrainInfoId = Info.Id AND StartTimes.TrainInfoId = Info.Id AND(EndTimes.StationName = N'" + endStation + "') AND(StartTimes.StationName = N'" + startStation + "') AND EndTimes.StopSeq > StartTimes.StopSeq").ToList(); ;
+            var result = trainTableDb.Database.SqlQuery<TrainTravelTime>("SELECT Info.TrainNo, Info.TrainTypeName, Info.StartingStationName, Info.EndingStationName, StartTimes.StationName As StartStation, StartTimes.DepartureTime, EndTimes.StationName As EndStation, EndTimes.ArrivalTime FROM[dbo].[TrainInfoSet] AS Info, [dbo].[StopTimesSet] AS EndTimes, [dbo].[StopTimesSet] AS StartTimes WHERE EndTimes.TrainInfoId = Info.Id AND StartTimes.TrainInfoId = Info.Id AND(EndTimes.StationName = N'" + endStation + "') AND(StartTimes.StationName = N'" + startStation + "') AND EndTimes.StopSeq > StartTimes.StopSeq").ToList();
 
-            foreach (IEnumerable<TrainTravelTime> travel in result)
-            {
-
-            }
-
-            return "查詢完成";
+            return result;
         }
     }
 }
