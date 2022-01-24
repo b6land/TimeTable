@@ -2,7 +2,9 @@
 
 - 使用 Visual Studio 2015 或較新版本開啟，需安裝 Web 開發套件。
 - 須先建立資料庫。以 Visual Studio 開啟 `SimpleTrainTable.edmx` 後，從右鍵功能表選擇「由模型產生資料庫」，需選擇資料庫連接，並按下新增連接，輸入資料庫名稱以建立資料庫檔案。
-![新增資料庫視窗](doc/Add_Database.png)
+
+![新增資料庫視窗](doc/Add_database.png)
+
 - 資料庫名稱應為 `TimeTable\App_Data\SimpleTimeTable.mdf`。
 - 建立完成後，需要連接剛剛建立的資料庫，並執行 `SimpleTrainTable.edmx.sql` 以建立結構。
 - 按下鍵盤的 [Ctrl] + [Shift]+ [B] 開始編譯。
